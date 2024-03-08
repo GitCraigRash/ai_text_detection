@@ -167,19 +167,24 @@ sys.getsizeof(X_test)
 
 tf.keras.backend.clear_session()
 
-vocab_words = len(tokenizer.word_index)+1
+import tensorflow as tf
+
+# Define the vocabulary size and embedding dimension
+vocab_size = len(tokenizer.word_index) + 1
 
 # Define the model
-
-model = Sequential([
-    Embedding(Embedding(input_dim=vocab_words, output_dim=10,input_length=1000)),
-    LSTM(64,input_shape=True),
-    Dense(1, activation='sigmoid')
+model = tf.keras.Sequential([
+    tf.keras.layers.Embedding(input_dim=vocab_size, output_dim=10, input_length=1000),
+    tf.keras.layers.LSTM(units=100),
+    tf.keras.layers.Dense(1, activation='sigmoid')
 ])
 
+# Compile the model
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
+# Print the model summary
 model.summary()
+
 
 # Train the model
 model.fit(my_training_batch_generator, epochs=1, batch_size=20)
