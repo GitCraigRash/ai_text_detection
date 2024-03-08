@@ -172,7 +172,7 @@ vocab_words = len(tokenizer.word_index)+1
 # Define the model
 
 model = Sequential([
-    Embedding(input_dim=vocab_words, output_dim=10),
+    Embedding(Embedding(input_dim=vocab_words, output_dim=10,input_length=1000)),
     LSTM(64,input_shape=True),
     Dense(1, activation='sigmoid')
 ])
