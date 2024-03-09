@@ -136,7 +136,7 @@ def data_generator(x_data, y_data, batch_size):
     indices = np.arange(num_samples)
 
     while True:
-        np.random.shuffle(indices)
+        #np.random.shuffle(indices)
         for start in range(0, num_samples, batch_size):
             end = min(start + batch_size, num_samples)
             batch_indices = indices[start:end]
