@@ -186,7 +186,7 @@ model.summary()
 
 
 # Train the model
-model.fit(my_training_batch_generator, epochs=1, batch_size=20)
+model.fit(X_train,y_train, epochs=1, batch_size=20)
 
 # Save the model
 model.save('lstm_model.h5')
