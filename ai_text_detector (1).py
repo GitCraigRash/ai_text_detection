@@ -185,6 +185,8 @@ model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy']
 # Print the model summary
 model.summary()
 
+X_train=X_train.values
+y_train=y_train.values
 
 # Train the model
 model.fit(X_train,y_train, epochs=1, batch_size=20)
