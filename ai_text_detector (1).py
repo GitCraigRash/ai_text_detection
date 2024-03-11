@@ -104,18 +104,19 @@ print("New array shape:", new_dimension_array.shape)
 mask = np.random.choice([True, False], size=len(df), p=[0.8, 0.2])
 df_padded["mask"] = mask
 # Split the data based on the mask
-X_train = df_padded["text"].loc[df_padded["mask"]==True]
-X_test = df_padded["text"].loc[df_padded["mask"]==False]
+X_train = df_padded.loc[df_padded["mask"]==True]
+X_test = df_padded.loc[df_padded["mask"]==False]
 #X_train = np.array(X_train)
 #X_test = np.array(X_test)
 
-
-y_train = df_padded["label"].loc[df_padded["mask"]==True]
-y_test = df_padded["label"].loc[df_padded["mask"]==False]
+y_train = df_padded.loc[df_padded["mask"]==True]
+y_test = df_padded.loc[df_padded["mask"]==False]
 #y_train = np.array(y_train)
 #y_test = np.array(y_test)
-
-#df_padded = None
+X_train = X_train.drop(columns=['mask'])
+X_test = X_test.drop(columns=['mask'])
+y_train = y_train.drop(columns=['mask'])
+y_test = y_test.drop(columns=['mask'])
 
 len(test_df),len(df)
 
