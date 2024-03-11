@@ -174,7 +174,7 @@ vocab_size = len(tokenizer.word_index) + 1
 
 # Define the model
 model = tf.keras.Sequential([
-    tf.keras.layers.Embedding(input_dim=vocab_size, output_dim=10, input_length=1000),
+    tf.keras.layers.Embedding(input_dim=vocab_size, output_dim=10, input_length=500),
     tf.keras.layers.LSTM(units=100,return_sequences=True),
     tf.keras.layers.Dense(1, activation='sigmoid')
 ])
