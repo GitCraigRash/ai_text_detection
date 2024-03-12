@@ -100,7 +100,7 @@ new_dimension_array = original_array[:, np.newaxis]
 # Check the shape of the new array
 print("Original array shape:", original_array.shape)
 print("New array shape:", new_dimension_array.shape)
-
+df_padded=pd.DataFrame(df_padded)
 mask = np.random.choice([True, False], size=len(df), p=[0.8, 0.2])
 df_padded["mask"] = mask
 # Split the data based on the mask
