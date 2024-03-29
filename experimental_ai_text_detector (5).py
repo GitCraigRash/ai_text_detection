@@ -89,7 +89,7 @@ y_test=y_test.values
 y_train=y_train.reshape(-1, 1)
 y_test=y_test.reshape(-1, 1)
 
-y_train.shape,y_train
+y_train.shape,y_train[:10]
 
 #Create Baseline
 unique_elements,counts=np.unique(y_test,return_counts=True)
@@ -208,13 +208,25 @@ plt.show()
 #What words were misclassfiied?
 
 word_index = tokenizer.word_index
-word_index
-
 type(word_index),len(word_index)
+count = 0
+for key, value in word_index.items():
+    print(key, value)
+    count += 1
+    if count == 10:
+        break
 
 !pip install pyldavis
 
-pyLDAvis.sklearn.prepare(lda_tf, dtm_tf, tf_vectorizer)
+from __future__ import print_function
+import pyLDAvis
+import pyLDAvis.lda_model
+
+from sklearn.datasets import fetch_20newsgroups
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
+
+pyLDAvis.lda_model.prepare(model, df_seq, tf_lower_and_strip)
 
 binary_predictions = binary_predictions.reshape(-1, 1)
 #type(y_test),type(binary_predictions),type(word_index)
