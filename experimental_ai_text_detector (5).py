@@ -84,8 +84,6 @@ y_train=y_train.values
 X_test=X_test.values
 y_test=y_test.values
 
-
-
 y_train=y_train.reshape(-1, 1)
 y_test=y_test.reshape(-1, 1)
 
