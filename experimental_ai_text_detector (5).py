@@ -30,8 +30,8 @@ df.columns, df.shape
 test_df.columns, test_df.shape
 
 #Limit DataFrames for prototyping purposes.
-df=df[:1000]
-test_df=test_df[:1000]
+df = df[:1000]
+test_df = test_df[:1000]
 test_df.columns, test_df.shape
 
 def tf_lower_and_strip(df):
@@ -43,13 +43,10 @@ def tf_lower_and_strip(df):
 df = tf_lower_and_strip(df)
 test_df = tf_lower_and_strip(test_df)
 
+
+
 # For the first try, we will avoid eliminating special characters.
 # We believe this will help us differentiant betweeen students and AI by catching punctuation errors.
-
-import tensorflow as tf
-from tensorflow.keras.layers import LSTM, Dense, Embedding
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 # Define maximum sequence length
 max_sequence_length = 500
@@ -60,29 +57,49 @@ tokenizer.fit_on_texts(df['text'])
 df_seq = tokenizer.texts_to_sequences(df['text'])
 df_padded = pad_sequences(df_seq, maxlen=max_sequence_length)
 
-df_padded=pd.DataFrame(df_padded)
+test_tokenizer = tf.keras.preprocessing.text.Tokenizer()
+test_tokenizer.fit_on_texts(test_df['text'])
+test_df_seq = tokenizer.texts_to_sequences(test_df['text'])
+test_df_padded = pad_sequences(test_df_seq, maxlen=max_sequence_length)
+
+df_padded = pd.DataFrame(df_padded)
+test_df_padded= pd.DataFrame(test_df_padded)
+
+test_df_padded
+
+len(df_padded),len(df)
+
+# Randomize the data
+df_padded = df_padded.sample(frac=1).reset_index(drop=True)
+test_df_padded = test_df_padded.sample(frac=1).reset_index(drop=True)
+
+print(test_df_padded.columns)
+# Randomly divide data
 mask = list(np.random.choice([True, False], size=len(df), p=[0.8, 0.2]))
 df_padded["mask"] = mask
 df["mask"] = mask
+
+print(test_df_padded.columns)
 # Split the data based on the mask
 X_train = df_padded.loc[df_padded["mask"]==True]
 y_train = df["label"].loc[df["mask"]==True]
-#X_train = np.array(X_train)
-#X_test = np.array(X_test)
 
+print(test_df_padded.columns)
 X_test = df_padded.loc[df_padded["mask"]==False]
 y_test = df["label"].loc[df["mask"]==False]
-#y_train = np.array(y_train)
-#y_test = np.array(y_test)
+
+print(test_df_padded.columns)
+# Reduce Memory
 X_train = X_train.drop(columns=['mask'])
 y_train = y_train.drop(columns=['mask'])
 X_test = X_test.drop(columns=['mask'])
 y_test = y_test.drop(columns=['mask'])
 
-X_train=X_train.values
-y_train=y_train.values
-X_test=X_test.values
-y_test=y_test.values
+print(test_df_padded.columns)
+X_val = test_df.drop(columns=["label"])
+y_val = test_df_padded.drop(columns=["text"])
+
+X_val
 
 y_train=y_train.reshape(-1, 1)
 y_test=y_test.reshape(-1, 1)
@@ -96,6 +113,10 @@ counts[0]/len(y_test)
 pip install -q -U keras-tuner
 
 import keras_tuner
+import tensorflow as tf
+from tensorflow.keras.layers import LSTM, Dense, Embedding
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 def model_builder(hp):
   model = keras.Sequential()
